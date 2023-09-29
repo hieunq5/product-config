@@ -1,6 +1,6 @@
 package com.config.productconfig.controller;
 
-import com.config.productconfig.usecase.ConfigService;
+import com.config.productconfig.service.ConfigService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

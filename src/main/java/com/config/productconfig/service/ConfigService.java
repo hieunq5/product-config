@@ -1,4 +1,4 @@
-package com.config.productconfig.usecase;
+package com.config.productconfig.service;
 
 import com.config.productconfig.utils.CompressUtils;
 import org.apache.commons.io.IOUtils;

@@ -1,3 +1,13 @@
+client:
+  url: http://localhost:8080
 
 test:
   example: some 232323
+
+product:
+  product-config-folder-name: "product-configs"
+
+document-template:
+  global-template-folder-name: "global-document-templates"
+  product-template-folder-name: "document-templates"
+  product-inclusion-template-folder-name: "includes"
