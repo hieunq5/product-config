@@ -20,4 +20,11 @@ public class ConfigController {
         return configService.getProductConfigs(product);
     }
 
+    @GetMapping("/refresh")
+    public void refresh() {
+        // read client actuator endpoint url
+        // call to refresh
+        configService.refresh("http://localhost:8080/actuator/");
+    }
+
 }

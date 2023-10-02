@@ -2,10 +2,13 @@ package com.config.productconfig.service;
 
 import com.config.productconfig.utils.CompressUtils;
 import org.apache.commons.io.IOUtils;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ServerErrorException;
 
 import java.io.File;
@@ -40,6 +43,15 @@ public class ConfigService {
         Path directoryToZipPath = Paths.get("src", "main", "resources", "product-configs", product);
         String directoryToZip = directoryToZipPath.toAbsolutePath().toString();
         return compressDirectory(directoryToZip);
+    }
+
+
+    public void refresh(String clientActuatorUrl) {
+        String refreshEndpointUrl = String.join("/", clientActuatorUrl, "refresh");
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity<String> requestEntity = new HttpEntity<>(headers);
+        restTemplate.exchange(refreshEndpointUrl, HttpMethod.GET, requestEntity, String.class);
     }
 
     private ResponseEntity<byte[]> compressDirectory(String directoryToZip) {
