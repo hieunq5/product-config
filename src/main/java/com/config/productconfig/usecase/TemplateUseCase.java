@@ -11,14 +11,19 @@ public class TemplateUseCase {
 
     private final TemplateService templateService;
 
-    public ResponseEntity<byte[]> downloadTemplate(String productId, String templateId, String templateType, String language) {
+    public ResponseEntity<byte[]> downloadTemplate(String productId,
+                                                   String mainTemplateId,
+                                                   String templateType,
+                                                   String templateId,
+                                                   String language) {
         if ("global".equalsIgnoreCase(templateType)) {
             return templateService.getGlobalTemplate(templateId, language);
         } else if ("include".equalsIgnoreCase(templateType)) {
-            return templateService.getProductInclusionTemplate(productId, templateId, language);
+            return templateService.getProductInclusionTemplate(productId, mainTemplateId, templateId, language);
         }
 
-        return templateService.getProductTemplate(productId, templateId, language);
+        // by default: main template
+        return templateService.getProductTemplate(productId, mainTemplateId, language);
     }
 
 }

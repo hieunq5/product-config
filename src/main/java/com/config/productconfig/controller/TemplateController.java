@@ -16,12 +16,13 @@ public class TemplateController {
 
     private final TemplateUseCase templateUseCase;
 
-    @GetMapping("/{templateId}")
+    @GetMapping("/{mainTemplateId}")
     public ResponseEntity<byte[]> getTemplate(@PathVariable String productId,
-                                              @PathVariable String templateId,
+                                              @PathVariable String mainTemplateId,
                                               @RequestParam(value = "templateType", required = false) String templateType,
-                                              @RequestParam(value = "language") String language) {
-        return templateUseCase.downloadTemplate(productId, templateId, templateType, language);
+                                              @RequestParam(value = "templateId", required = false) String templateId,
+                                              @RequestParam(value = "language", required = false) String language) {
+        return templateUseCase.downloadTemplate(productId, mainTemplateId, templateType, templateId, language);
     }
 
 }

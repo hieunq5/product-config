@@ -33,7 +33,7 @@ public class SpringConfigService {
 
     private PropertySource readByProfileName(String profileName) {
         String springProfileFileName = DEFAULT.equalsIgnoreCase(profileName) ? "application.yml" : "application-" + profileName + ".yml";
-        Path applicationYmlPath = Paths.get("src", "main", "resources", "spring-configs", springProfileFileName);
+        Path applicationYmlPath = Paths.get("src", "main", "resources", "client-configs/spring-configs", springProfileFileName);
         File file = new File(applicationYmlPath.toAbsolutePath().toString());
         YAMLReader yamlR = new YAMLReader(file);
         Map<String, Object> source = yamlR.readAsFlattenMap();

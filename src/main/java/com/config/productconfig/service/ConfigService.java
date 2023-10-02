@@ -18,6 +18,8 @@ import java.io.InputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import static com.config.productconfig.global.Constant.CLIENT_CONFIG_PATH;
+
 @Service
 public class ConfigService {
 
@@ -27,24 +29,29 @@ public class ConfigService {
     private static final String TMP_FOLDER_NAME = "tmp";
     private static final String OUTPUT_ZIP_FILE_NAME = "test.zip";
 
+    public ResponseEntity<byte[]> getConfigs() {
+        Path directoryToZipPath = Paths.get(CLIENT_CONFIG_PATH);
+        String directoryToZip = directoryToZipPath.toAbsolutePath().toString();
+        return compressDirectory(directoryToZip);
+    }
+
     public ResponseEntity<byte[]> getGlobalConfigs() {
-        Path directoryToZipPath = Paths.get("src", "main", "resources", "global-configs");
+        Path directoryToZipPath = Paths.get(CLIENT_CONFIG_PATH, "global-configs");
         String directoryToZip = directoryToZipPath.toAbsolutePath().toString();
         return compressDirectory(directoryToZip);
     }
 
     public ResponseEntity<byte[]> getGlobalConfig(String configFileName) {
-        Path directoryToZipPath = Paths.get("src", "main", "resources", "global-configs", configFileName);
+        Path directoryToZipPath = Paths.get(CLIENT_CONFIG_PATH, "global-configs", configFileName);
         String directoryToZip = directoryToZipPath.toAbsolutePath().toString();
         return compressDirectory(directoryToZip);
     }
 
     public ResponseEntity<byte[]> getProductConfigs(String product) {
-        Path directoryToZipPath = Paths.get("src", "main", "resources", "product-configs", product);
+        Path directoryToZipPath = Paths.get(CLIENT_CONFIG_PATH, "product-configs", product);
         String directoryToZip = directoryToZipPath.toAbsolutePath().toString();
         return compressDirectory(directoryToZip);
     }
-
 
     public void refresh(String clientActuatorUrl) {
         String refreshEndpointUrl = String.join("/", clientActuatorUrl, "refresh");

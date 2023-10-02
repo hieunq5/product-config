@@ -20,6 +20,11 @@ public class ConfigController {
         return configService.getProductConfigs(product);
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<byte[]> getConfigs() {
+        return configService.getConfigs();
+    }
+
     @GetMapping("/refresh")
     public void refresh() {
         // read client actuator endpoint url
