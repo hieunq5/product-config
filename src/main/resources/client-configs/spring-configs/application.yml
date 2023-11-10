@@ -1,9 +1,0 @@
-config:
-  in-both-profiles: "in-both-profiles - DEFAULT"
-  only-in-default-profile: "only-in-default-profile"
-  product:
-    template-config: "template-config - DEFAULT"
-    output-config: "output-config - DEFAULT"
-  document:
-    document-name: "document-name - DEFAULT"
-    document-id: "document-id - DEFAULT"

@@ -1,0 +1,7 @@
+date-format:
+  - de: "dd/MM/yyyy"
+  - en: "MM/dd/yyyy"
+
+money-format:
+  - de: "{0} E"
+  - en: "$ {0}"

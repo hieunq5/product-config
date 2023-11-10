@@ -1,9 +1,0 @@
-config:
-  in-both-profiles: "in-both-profiles - LOCAL22222"
-  only-in-local-profile: "only-in-local-profile"
-  product:
-    template-config: "template-config - LOCAL"
-    output-config: "output-config - LOCAL"
-  document:
-    document-name: "document-name - LOCAL"
-    document-id: "document-id - LOCAL"
