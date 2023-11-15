@@ -17,14 +17,16 @@ import java.io.InputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import static com.config.global.Constant.CLIENT_CONFIG_PATH;
-
 @Service
 @RequiredArgsConstructor
 public class TemplateService {
 
     private static final String CONTENT_DISPOSITION_HEADER = "Content-Disposition";
     private static final String CONTENT_TYPE_HEADER = "Content-Type";
+
+
+    @Value("${solution-config.root.path}")
+    private String clientConfigRootPath;
 
     @Value("${product.product-config-folder-name}")
     private String productConfigFolderName;
@@ -41,14 +43,14 @@ public class TemplateService {
     public ResponseEntity<byte[]> getGlobalTemplate(@NonNull String templateId, @NonNull String language) {
         language = language.trim().toUpperCase();
         String templateName = String.join(".", templateId, "docx");
-        Path templatePath = Paths.get(CLIENT_CONFIG_PATH, productConfigFolderName, globalTemplateFolderName, language, templateName);
+        Path templatePath = Paths.get(clientConfigRootPath, productConfigFolderName, globalTemplateFolderName, language, templateName);
         return toResponseEntity(templatePath, templateName);
     }
 
     public ResponseEntity<byte[]> getProductTemplate(@NonNull String productId, @NonNull String templateId, @NonNull String language) {
         language = language.trim().toUpperCase();
         String templateName = String.join(".", templateId, "docx");
-        Path templatePath = Paths.get(CLIENT_CONFIG_PATH, productConfigFolderName, productId, productTemplateFolderName, language, templateName);
+        Path templatePath = Paths.get(clientConfigRootPath, productConfigFolderName, productId, productTemplateFolderName, language, templateName);
         return toResponseEntity(templatePath, templateName);
     }
 
@@ -56,7 +58,7 @@ public class TemplateService {
         // validate @mainTemplateId
         language = language.trim().toUpperCase();
         String templateName = String.join(".", templateId, "docx");
-        Path templatePath = Paths.get(CLIENT_CONFIG_PATH, productConfigFolderName, productId, productTemplateFolderName, language, productInclusionTemplateFolderName, templateName);
+        Path templatePath = Paths.get(clientConfigRootPath, productConfigFolderName, productId, productTemplateFolderName, language, productInclusionTemplateFolderName, templateName);
         return toResponseEntity(templatePath, templateName);
     }
 

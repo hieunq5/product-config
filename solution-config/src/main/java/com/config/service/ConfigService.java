@@ -2,6 +2,7 @@ package com.config.service;
 
 import com.config.utils.CompressUtils;
 import org.apache.commons.io.IOUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -18,7 +19,6 @@ import java.io.InputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import static com.config.global.Constant.CLIENT_CONFIG_PATH;
 
 @Service
 public class ConfigService {
@@ -29,28 +29,13 @@ public class ConfigService {
     private static final String TMP_FOLDER_NAME = "tmp";
     private static final String OUTPUT_ZIP_FILE_NAME = "test.zip";
 
-    public ResponseEntity<byte[]> getConfigs() {
-        Path directoryToZipPath = Paths.get(CLIENT_CONFIG_PATH);
-        String directoryToZip = directoryToZipPath.toAbsolutePath().toString();
-        return compressDirectory(directoryToZip);
-    }
+    @Value("${solution-config.root.path}")
+    private String clientConfigRootPath;
 
-    public ResponseEntity<byte[]> getGlobalConfigs() {
-        Path directoryToZipPath = Paths.get(CLIENT_CONFIG_PATH, "global-configs");
-        String directoryToZip = directoryToZipPath.toAbsolutePath().toString();
-        return compressDirectory(directoryToZip);
-    }
-
-    public ResponseEntity<byte[]> getGlobalConfig(String configFileName) {
-        Path directoryToZipPath = Paths.get(CLIENT_CONFIG_PATH, "global-configs", configFileName);
-        String directoryToZip = directoryToZipPath.toAbsolutePath().toString();
-        return compressDirectory(directoryToZip);
-    }
-
-    public ResponseEntity<byte[]> getProductConfigs(String product) {
-        Path directoryToZipPath = Paths.get(CLIENT_CONFIG_PATH, "product-configs", product);
-        String directoryToZip = directoryToZipPath.toAbsolutePath().toString();
-        return compressDirectory(directoryToZip);
+    public ResponseEntity<byte[]> getConfig(String path) {
+        Path directoryToZipPath = Paths.get(clientConfigRootPath, path);
+        File file = new File(directoryToZipPath.toAbsolutePath().toString());
+        return file.isDirectory() ? getDirectoryAsByte(file) : getFileAsByte(file);
     }
 
     public void refresh(String clientActuatorUrl) {
@@ -61,7 +46,17 @@ public class ConfigService {
         restTemplate.exchange(refreshEndpointUrl, HttpMethod.GET, requestEntity, String.class);
     }
 
-    private ResponseEntity<byte[]> compressDirectory(String directoryToZip) {
+    private ResponseEntity<byte[]> getFileAsByte(File file) {
+        try {
+            InputStream targetStream = new FileInputStream(file);
+            return toResponseEntity(targetStream, file.getName());
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private ResponseEntity<byte[]> getDirectoryAsByte(File file) {
         Path tmpFolderPath = Paths.get(TMP_FOLDER_NAME);
         File tmpFolder = new File(tmpFolderPath.toAbsolutePath().toString());
         if (!tmpFolder.exists()) {
@@ -71,7 +66,7 @@ public class ConfigService {
         Path tmpZipFilePath = Paths.get(TMP_FOLDER_NAME, OUTPUT_ZIP_FILE_NAME);
         String tmpZipFile = tmpZipFilePath.toAbsolutePath().toString();
 
-        CompressUtils.zipDirectory(directoryToZip, tmpZipFile);
+        CompressUtils.zipDirectory(file.getAbsolutePath(), tmpZipFile);
 
         File zipFile = new File(tmpZipFile);
         try {

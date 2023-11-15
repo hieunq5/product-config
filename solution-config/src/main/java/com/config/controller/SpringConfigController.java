@@ -15,7 +15,7 @@ public class SpringConfigController {
     private final SpringConfigService springConfigService;
 
     @RequestMapping("/{appName}/{activeProfile}")
-    public SpringConfig getSpringConfig(@PathVariable String appName, @PathVariable String activeProfile) {
+    public SpringConfig getConfig(@PathVariable String appName, @PathVariable String activeProfile) {
         return springConfigService.read(appName, activeProfile);
     }
 }

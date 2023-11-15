@@ -17,9 +17,9 @@ spring:
     config:
       server:
         git:
-          uri: /Users/hqnguyen/Documents/WORKSPACE/home/product-config/client-config
+          uri: /Users/hqnguyen/Documents/WORKSPACE/home/product-config/
         prefix: /spring-configs
 
 solution-config:
   root:
-    path: solution-config/src/main/resources/client-configs
+    path: client-config/src/main/resources/client-configs
