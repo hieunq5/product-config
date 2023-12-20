@@ -1,4 +1,4 @@
 rootProject.name = 'product-config'
 include 'solution-config'
-include 'client-config'
+include 'solution-config-app'
 
